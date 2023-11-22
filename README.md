@@ -3,12 +3,12 @@
 ## Bot issues
 - ### mysql-connector-python lib isn't async
 this bot isn't complete asynchronous, because I didn't find async MySQL lib :D
-- ### you can't write descriptions with spaces
+- ### you can't write descriptions separated by spaces
 because it will break the order of arguments
-- ### you need user id to send file
+- ### you need a user id to send file
 constantly searching for user ID can be a bit annoying
 
-<i>**I promise to fix it soon :)**</i>
+<i>**I promise to fix this soon :)**</i>
 
 <i>if you find any more problems, please, feedback <a href=https://t.me/Antntipo>me<a/></i>
 
