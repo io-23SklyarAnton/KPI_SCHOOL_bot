@@ -6,7 +6,9 @@ class BasicStates(StatesGroup):
 
 
 class DownloadFileStates(StatesGroup):
+    description_state = State()
     download_ready_state = State()
+
 
 
 class GetFileStates(StatesGroup):
