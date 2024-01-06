@@ -2,6 +2,14 @@ import os
 from aiogram import types
 from aiogram import Bot
 from Core.middlewares.database import fill_data
+from aiogram.fsm.context import FSMContext
+from Core.handlers.states import DownloadFileStates
+from Core.keyboard.download_get_kb import cancel_builder
+
+
+async def save(message: types.Message, state: FSMContext):
+    await message.answer(f"Please, write a description to your file", reply_markup=cancel_builder.as_markup(resize_keyboard=True))
+    await state.set_state(DownloadFileStates.download_ready_state)
 
 
 async def save_photo(message: types.Message, bot: Bot):
@@ -18,7 +26,7 @@ async def save_photo(message: types.Message, bot: Bot):
         file=file_id,
         destination=dest_path
     )
-    await message.reply(result)
+    await message.reply(result, reply_markup=cancel_builder.as_markup(resize_keyboard=True))
 
 
 async def save_video(message: types.Message, bot: Bot):
@@ -34,7 +42,7 @@ async def save_video(message: types.Message, bot: Bot):
         file=file_id,
         destination=dest_path
     )
-    await message.reply(result)
+    await message.reply(result, reply_markup=cancel_builder.as_markup(resize_keyboard=True))
 
 
 async def save_sticker(message: types.Message, bot: Bot):
@@ -50,7 +58,7 @@ async def save_sticker(message: types.Message, bot: Bot):
         file=file_id,
         destination=dest_path
     )
-    await message.reply(result)
+    await message.reply(result, reply_markup=cancel_builder.as_markup(resize_keyboard=True))
 
 
 async def save_document(message: types.Message, bot: Bot):
@@ -66,7 +74,7 @@ async def save_document(message: types.Message, bot: Bot):
         file=file_id,
         destination=dest_path
     )
-    await message.reply(result)
+    await message.reply(result, reply_markup=cancel_builder.as_markup(resize_keyboard=True))
 
 
 async def save_audio(message: types.Message, bot: Bot):
@@ -82,4 +90,4 @@ async def save_audio(message: types.Message, bot: Bot):
         file=file_id,
         destination=dest_path
     )
-    await message.reply(result)
+    await message.reply(result, reply_markup=cancel_builder.as_markup(resize_keyboard=True))
