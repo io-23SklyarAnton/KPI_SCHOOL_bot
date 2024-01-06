@@ -10,8 +10,8 @@ class DownloadFileStates(StatesGroup):
     download_ready_state = State()
 
 
-
 class GetFileStates(StatesGroup):
     get_ready_state = State()
     get_last_files_state = State()
+    description_state = State()
     send_files_state = State()

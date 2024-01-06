@@ -41,15 +41,26 @@ async def send_last_files(message: types.Message):
         await message.answer(f"{file_description} - {file_send_date}")
 
 
-async def send_file(message: types.Message, command: CommandObject, bot: Bot):
+async def send_file(message: types.Message, state: FSMContext):
+    await message.answer("write down a description of the file you want to send",
+                         reply_markup=cancel_builder.as_markup(resize_keyboard=True))
+    await state.set_state(GetFileStates.description_state)
+
+
+async def get_description(message: types.Message, state: FSMContext):
+    await message.answer("Forward user contact",
+                         reply_markup=cancel_builder.as_markup(resize_keyboard=True))
+    await state.update_data(description=message.text)
+    await state.set_state(GetFileStates.send_files_state)
+
+
+async def get_addresse(message: types.Message, state: FSMContext, bot: Bot):
+    print(message)
     file_answers = {"photo": bot.send_photo, "video": bot.send_video, "audio": bot.send_audio,
                     "document": bot.send_document, "sticker": bot.send_sticker}
-    if command.args is None:
-        await message.answer("No arguments, check <i>/help</i>")
-        return
-    args = command.args.split(maxsplit=1)
-    description = args[0]
-    addressee = message.from_user.id if len(args) == 1 else args[1]
+    user_data = await state.get_data()
+    description = user_data["description"]
+    addressee = message.contact.user_id
     user_id = message.from_user.id
 
     result = get_data.return_file(user_id=user_id, description=description)
@@ -60,4 +71,6 @@ async def send_file(message: types.Message, command: CommandObject, bot: Bot):
         file_type = file[0]
         file_id = file[1]
 
+        print(addressee, type(addressee))
         await file_answers[file_type](addressee, file_id)
+        await message.answer("file sent successful!", reply_markup=cancel_builder.as_markup(resize_keyboard=True))
